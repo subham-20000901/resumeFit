@@ -1,0 +1,432 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+// Palette: quiet cool-charcoal base so the single accent actually reads as a
+// signal, not decoration. Teal-cyan accent instead of hot-pink — feels more
+// "precision tool" than "marketing site," and pairs better with a dark base
+// than a saturated magenta does.
+$bg-page:        #0a0d12;
+$bg-card:        #12161e;
+$bg-panel:       #161b25;
+$bg-input:       #10141c;
+$border-color:   #232a38;
+$border-soft:    #1a202c;
+$text-primary:   #e7ecf2;
+$text-muted:     #717c8c;
+$text-dim:       #4a5262;
+
+$accent:         #2dd4bf;
+$accent-strong:  #14b8a6;
+$accent-dim:     rgba(45, 212, 191, 0.12);
+
+$badge-required: #f0955a;   // warm amber — distinct from accent, reads as "attention" not "brand"
+$badge-best:     #2dd4bf;
+
+$info-bg:        #121a2a;
+$info-border:    #223050;
+$info-text:      #7fa8e0;
+
+$font-display:   'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+$font-body:      'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+$font-mono:      'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+// ── Page Shell ───────────────────────────────────────────────────────────────
+.home-page {
+    width: 100%;
+    min-height: 100vh;
+    background-color: $bg-page;
+    background-image:
+        radial-gradient(circle at 15% 0%, rgba(45, 212, 191, 0.06), transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: auto, 48px 48px, 48px 48px;
+    color: $text-primary;
+    font-family: $font-body;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3.5rem 1.5rem 4rem;
+    gap: 2.5rem;
+}
+
+// ── Page Header ──────────────────────────────────────────────────────────────
+// Left-aligned within the card's width rather than centered — this is a tool
+// the user operates repeatedly, not a hero banner they read once.
+.page-header {
+    width: 100%;
+    max-width: 900px;
+    text-align: left;
+    border-bottom: 1px solid $border-soft;
+    padding-bottom: 1.5rem;
+
+    h1 {
+        font-family: $font-display;
+        font-size: 2.1rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.6rem;
+        color: $text-primary;
+    }
+
+    p {
+        color: $text-muted;
+        font-size: 0.9rem;
+        max-width: 460px;
+        line-height: 1.6;
+    }
+
+    .highlight {
+        color: $accent;
+        font-weight: 600;
+    }
+}
+
+// ── Main Card ─────────────────────────────────────────────────────────────────
+.interview-card {
+    width: 100%;
+    max-width: 900px;
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-top: 2px solid $accent-strong;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    &__body {
+        display: flex;
+        min-height: 520px;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        border-top: 1px solid $border-soft;
+        background-color: $bg-panel;
+
+        .footer-info {
+            font-family: $font-mono;
+            font-size: 0.75rem;
+            color: $text-dim;
+            letter-spacing: 0.01em;
+        }
+    }
+}
+
+// ── Panels ────────────────────────────────────────────────────────────────────
+.panel-divider {
+    width: 1px;
+    background-color: $border-soft;
+    flex-shrink: 0;
+}
+
+.panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.75rem;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.25rem;
+
+        h2 {
+            font-family: $font-display;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: $text-primary;
+            flex: 1;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 0.35rem;
+        background-color: $accent-dim;
+        color: $accent;
+    }
+
+    &__textarea {
+        flex: 1;
+        width: 100%;
+        background-color: $bg-input;
+        border: 1px solid $border-color;
+        border-radius: 0.4rem;
+        padding: 0.85rem 1rem;
+        color: $text-primary;
+        font-family: $font-body;
+        font-size: 0.875rem;
+        resize: none;
+        outline: none;
+        transition: border-color 0.15s ease;
+        line-height: 1.55;
+
+        &::placeholder {
+            color: $text-dim;
+        }
+
+        &:focus {
+            border-color: $accent;
+            box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.25);
+        }
+
+        &--short {
+            flex: unset;
+            height: 96px;
+        }
+    }
+
+    &--left {
+        position: relative;
+        border-right: 1px solid $border-soft;
+
+        .char-counter {
+            position: absolute;
+            bottom: 2.25rem;
+            right: 2rem;
+            font-family: $font-mono;
+            font-size: 0.7rem;
+            color: $text-dim;
+        }
+    }
+
+    &--right {
+        gap: 0.85rem;
+    }
+}
+
+// ── Badges ────────────────────────────────────────────────────────────────────
+// Sentence case rather than tracked-out uppercase — reads as a label, not
+// packaging copy.
+.badge {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 0.25rem;
+    letter-spacing: 0.01em;
+
+    &--required {
+        background-color: rgba($badge-required, 0.12);
+        color: $badge-required;
+        border: 1px solid rgba($badge-required, 0.3);
+    }
+
+    &--best {
+        background-color: $accent-dim;
+        color: $badge-best;
+        border: 1px solid rgba($badge-best, 0.3);
+    }
+}
+
+// ── Section Label ─────────────────────────────────────────────────────────────
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: $text-primary;
+    margin-bottom: 0.25rem;
+}
+
+// ── Dropzone ──────────────────────────────────────────────────────────────────
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.5rem 1rem;
+    background-color: $bg-input;
+    border: 1px dashed $border-color;
+    border-radius: 0.45rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+
+    &:hover {
+        border-color: $accent;
+        background-color: $accent-dim;
+    }
+
+    &__icon {
+        color: $accent;
+        margin-bottom: 0.25rem;
+    }
+
+    &__title {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: $text-primary;
+        margin: 0;
+    }
+
+    &__subtitle {
+        font-family: $font-mono;
+        font-size: 0.7rem;
+        color: $text-dim;
+        margin: 0;
+    }
+}
+
+// ── OR Divider ────────────────────────────────────────────────────────────────
+.or-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $text-dim;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background-color: $border-soft;
+    }
+}
+
+// ── Self Description ──────────────────────────────────────────────────────────
+.self-description {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+// ── Info Box ──────────────────────────────────────────────────────────────────
+.info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    background-color: $info-bg;
+    border: 1px solid $info-border;
+    border-left: 2px solid $info-text;
+    border-radius: 0.35rem;
+
+    &__icon {
+        flex-shrink: 0;
+        color: $info-text;
+        margin-top: 1px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: $info-text;
+        line-height: 1.5;
+
+        strong {
+            color: $text-primary;
+        }
+    }
+}
+
+// ── Generate Button ───────────────────────────────────────────────────────────
+// Solid, rectangular-leaning, no gradient wash — the button reads as the one
+// deliberate high-contrast object on the page rather than another soft card.
+.generate-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background-color: $accent;
+    color: #04120f;
+    font-family: $font-display;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+
+    &:hover {
+        background-color: $accent-strong;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.recent-reports {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 900px;
+
+    > h2, > h3 {
+        font-family: $font-display;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: $text-primary;
+    }
+
+    .reports-list {
+        display: flex;
+        gap: 0.85rem;
+        flex-wrap: wrap;
+
+        .report-item {
+            background-color: $bg-card;
+            border: 1px solid $border-color;
+            border-radius: 0.45rem;
+            padding: 1rem 1.1rem;
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: border-color 0.15s ease;
+
+            &:hover {
+                border-color: $accent;
+            }
+
+            .match-score {
+                font-family: $font-mono;
+                font-size: 0.78rem;
+                font-weight: 600;
+                color: $accent;
+            }
+
+            .generated-date {
+                font-family: $font-mono;
+                font-size: 0.72rem;
+                color: $text-dim;
+            }
+        }
+    }
+}
+
+// ── Page Footer ───────────────────────────────────────────────────────────────
+.page-footer {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+        font-size: 0.8rem;
+        color: $text-muted;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        &:hover {
+            color: $text-primary;
+        }
+    }
+}
