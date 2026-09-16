@@ -40,8 +40,8 @@ export const registerUser = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     return res.status(201).json({
@@ -96,8 +96,8 @@ export const loginUser = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     return res.status(200).json({
@@ -125,7 +125,11 @@ export const logoutController = async (req, res) => {
       await tokenBlacklistModel.create({ token });
     }
 
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
 
     return res.status(200).json({
       success: true,
@@ -141,26 +145,25 @@ export const logoutController = async (req, res) => {
 
 export const getMeController = async (req, res) => {
   try {
-      const {id} = req.user;
+    const { id } = req.user;
 
-      const user = await User.findById(id);
+    const user = await User.findById(id);
 
-      if(!user) {
-        return res.status(404).json({
-            success:false,
-            message:"User not found"
-        })
-      }
-      return res.status(200).json({
-        success:true,
-        message:"User details fetched successfully.",
-        user:{
-            id:user._id,
-            username:user.username,
-            email:user.email
-        }
-      })
-
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "User details fetched successfully.",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
