@@ -14,9 +14,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://jazzy-unicorn-ce16bf.netlify.app",
+    origin: [
+      "http://localhost:5173",
+      "https://jazzy-unicorn-ce16bf.netlify.app",
+    ],
     credentials: true,
-  }),
+  })
 );
 app.use("/api/auth", authRouter);
 app.use("/api/interview",interviewRouter);
